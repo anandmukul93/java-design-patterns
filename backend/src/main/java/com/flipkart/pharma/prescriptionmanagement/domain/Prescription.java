@@ -30,4 +30,7 @@ public class Prescription {
     @Email
     @Column(name = "issued_email")
     private String issuedEmail;
+
+    @Column(name = "is_purchased")
+    private Boolean isPurchased;
 }
