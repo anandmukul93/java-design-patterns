@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import java.util.Date;
 
 @Entity
 @Data
@@ -19,7 +20,7 @@ public class Prescription {
     private Long id;
 
     @Column(unique = true, name = "prescription_id")
-    private String presciptionId;
+    private String prescriptionId;
 
     @Column(name = "doc_id_no")
     private String docIdNo;
@@ -35,4 +36,13 @@ public class Prescription {
 
     @Column(name = "to_notify")
     private Boolean toNotify;
+
+    @Column(name = "purchase_count")
+    private Integer purchaseCount;
+
+    @Column(name = "max_purchase")
+    private Integer maxPurchase;
+
+    @Column(name = "expiry")
+    private Date expiry;
 }

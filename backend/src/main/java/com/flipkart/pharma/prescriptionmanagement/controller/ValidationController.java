@@ -1,6 +1,7 @@
 package com.flipkart.pharma.prescriptionmanagement.controller;
 
 
+import com.flipkart.pharma.prescriptionmanagement.exception.PmaException;
 import com.flipkart.pharma.prescriptionmanagement.model.request.CheckValidationRequest;
 import com.flipkart.pharma.prescriptionmanagement.model.request.CreatePrescriptionValidationRequest;
 import com.flipkart.pharma.prescriptionmanagement.model.request.InitiateValidationRequest;
@@ -33,12 +34,12 @@ public class ValidationController {
     }
 
     @RequestMapping(value = "/initiate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
-    public InitiateValidationResponse initiate(@RequestBody @Valid InitiateValidationRequest initiateValidationRequest)throws Exception {
+    public InitiateValidationResponse initiate(@RequestBody @Valid InitiateValidationRequest initiateValidationRequest)throws PmaException {
         return validationService.initiateValidation(initiateValidationRequest);
     }
 
     @RequestMapping(value = "/validate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces =  MediaType.APPLICATION_JSON)
-    public CheckValidationResponse validate(@RequestBody @Valid CheckValidationRequest checkValidationRequest) {
+    public CheckValidationResponse validate(@RequestBody @Valid CheckValidationRequest checkValidationRequest) throws PmaException {
         return validationService.checkValidation(checkValidationRequest);
     }
 

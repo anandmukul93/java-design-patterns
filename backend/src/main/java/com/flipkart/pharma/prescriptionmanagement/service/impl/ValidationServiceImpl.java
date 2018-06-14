@@ -16,10 +16,13 @@ import com.flipkart.pharma.prescriptionmanagement.repository.ValidationRepositor
 import com.flipkart.pharma.prescriptionmanagement.service.OTPService;
 import com.flipkart.pharma.prescriptionmanagement.service.PrescriptionService;
 import com.flipkart.pharma.prescriptionmanagement.service.ValidationService;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
 
 @Component
 @Slf4j
@@ -48,10 +51,10 @@ public class ValidationServiceImpl implements ValidationService {
                 response.setStatus(Status.FAILURE);
             do {
                 this.setDomainAttributes(prescription, createPrescriptionValidationRequest);
-            }while(validationRepository.getByPresciptionId(prescription.getPresciptionId()) != null);
-            response.setPrescriptionId(prescription.getPresciptionId());
+            }while(validationRepository.getByPrescriptionId(prescription.getPrescriptionId()) != null);
+            response.setPrescriptionId(prescription.getPrescriptionId());
             validationRepository.save(prescription);
-            prescriptionService.create(createPrescriptionValidationRequest.getMedicines(), prescription.getPresciptionId());
+            prescriptionService.create(createPrescriptionValidationRequest.getMedicines(), prescription.getPrescriptionId());
             response.setStatus(Status.SUCCESS);
         }
         catch(Exception e){
@@ -64,12 +67,21 @@ public class ValidationServiceImpl implements ValidationService {
         prescription.setDocIdNo(request.getDocIdNo());
         prescription.setIssuedEmail(request.getPatientEmail());
         prescription.setIssuedPhoneNo(request.getPatientPhoneNo());
-        prescription.setPresciptionId(Utils.uniqueString(PID_LENGTH, StringType.PID));
+        prescription.setPrescriptionId(Utils.uniqueString(PID_LENGTH, StringType.PID));
         prescription.setToNotify(request.getToNotify());
+        prescription.setPurchaseCount(0);
+        prescription.setExpiry(request.getExpiry());
+        prescription.setMaxPurchase(request.getMaxPurchase());
     }
 
     @Override
-    public CheckValidationResponse checkValidation(CheckValidationRequest checkValidationRequest) {
+    public CheckValidationResponse checkValidation(CheckValidationRequest checkValidationRequest) throws PmaException {
+        Prescription prescription = validationRepository.getByPrescriptionId(checkValidationRequest.getPrescriptionId());
+        Date currentDate = new Date(System.currentTimeMillis());
+        if(prescription.getExpiry() != null && prescription.getExpiry().before(currentDate)) {
+            throw new PmaException("Prescription date is expired");
+        }
+
         boolean result =  otpService.validateOTP(checkValidationRequest);
         CheckValidationResponse response = new CheckValidationResponse();
         response.setPrescriptionId(checkValidationRequest.getPrescriptionId());
@@ -84,7 +96,7 @@ public class ValidationServiceImpl implements ValidationService {
     @Override
     public InitiateValidationResponse initiateValidation(InitiateValidationRequest initiateValidationRequest)throws PmaException {
         try {
-            Prescription prescription = validationRepository.getByPresciptionId(initiateValidationRequest.getPrescriptionId());
+            Prescription prescription = validationRepository.getByPrescriptionId(initiateValidationRequest.getPrescriptionId());
             otpService.generateOTP(initiateValidationRequest.getPrescriptionId(), prescription.getIssuedPhoneNo());
         }
         catch(PmaException e){
