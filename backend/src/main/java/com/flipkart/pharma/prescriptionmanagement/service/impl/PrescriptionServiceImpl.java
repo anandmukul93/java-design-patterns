@@ -68,6 +68,5 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         prescription.setRemarks(request.getRemarks());
         prescription.setNoOfDays(request.getNoOfDays());
         prescription.setTime(request.getTime());
-        prescription.setToNotify(request.getToNotify());
     }
 }

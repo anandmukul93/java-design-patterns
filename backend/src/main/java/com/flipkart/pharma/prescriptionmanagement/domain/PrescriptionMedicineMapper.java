@@ -38,7 +38,4 @@ public class PrescriptionMedicineMapper {
 
     @Column(name = "time")
     private Time time;
-
-    @Column(name = "to_notify")
-    private Boolean toNotify;
 }

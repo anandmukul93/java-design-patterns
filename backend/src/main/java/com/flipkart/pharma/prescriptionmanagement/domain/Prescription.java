@@ -27,10 +27,12 @@ public class Prescription {
     @Column(name = "issued_phone_no")
     private String issuedPhoneNo;
 
-    @Email(message = "Email should be valid format")
     @Column(name = "issued_email")
     private String issuedEmail;
 
     @Column(name = "is_purchased")
     private Boolean isPurchased;
+
+    @Column(name = "to_notify")
+    private Boolean toNotify;
 }

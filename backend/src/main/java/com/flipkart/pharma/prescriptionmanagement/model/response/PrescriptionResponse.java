@@ -7,6 +7,8 @@ import com.flipkart.pharma.prescriptionmanagement.common.MedicineType;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.sql.Time;
+
 /**
  * Created by sourabh.d on 14/06/18.
  */
@@ -20,4 +22,6 @@ public class PrescriptionResponse {
     private String medicineName;
     private Integer quantity;
     private String remarks;
+    private Time time;
+    private Integer noOfDays;
 }

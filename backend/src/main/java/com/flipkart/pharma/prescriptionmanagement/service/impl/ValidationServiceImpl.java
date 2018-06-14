@@ -43,8 +43,8 @@ public class ValidationServiceImpl implements ValidationService {
             do {
                 this.setDomainAttributes(prescription, createPrescriptionValidationRequest);
             }while(validationRepository.getByPresciptionId(prescription.getPresciptionId()) != null);
-            validationRepository.save(prescription);
             response.setPrescriptionId(prescription.getPresciptionId());
+            validationRepository.save(prescription);
             response.setStatus(Status.SUCCESS);
         }
         catch(Exception e){
@@ -58,6 +58,7 @@ public class ValidationServiceImpl implements ValidationService {
         prescription.setIssuedEmail(request.getPatientEmail());
         prescription.setIssuedPhoneNo(request.getPatientPhoneNo());
         prescription.setPresciptionId(Utils.uniqueString(PID_LENGTH, StringType.PID));
+        prescription.setToNotify(request.getToNotify());
     }
 
     @Override

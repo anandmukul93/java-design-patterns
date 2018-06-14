@@ -12,4 +12,5 @@ public class CreatePrescriptionValidationRequest {
     private String docIdNo;
     private String patientPhoneNo;
     private String patientEmail;
+    private Boolean toNotify;
 }
