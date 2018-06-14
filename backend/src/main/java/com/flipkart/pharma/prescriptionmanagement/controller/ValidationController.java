@@ -28,12 +28,12 @@ public class ValidationController {
     }
 
     @RequestMapping(value = "/initiate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
-    public InitiateValidationResponse initiate(InitiateValidationRequest initiateValidationRequest) {
-        return null;
+    public InitiateValidationResponse initiate(InitiateValidationRequest initiateValidationRequest)throws Exception {
+        return validationService.initiateValidation(initiateValidationRequest);
     }
 
     @RequestMapping(value = "/validate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces =  MediaType.APPLICATION_JSON)
     public CheckValidationResponse validate(CheckValidationRequest checkValidationRequest) {
-        return null;
+        return validationService.checkValidation(checkValidationRequest);
     }
 }
