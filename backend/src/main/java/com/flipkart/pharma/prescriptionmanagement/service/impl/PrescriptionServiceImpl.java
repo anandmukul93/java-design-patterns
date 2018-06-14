@@ -29,11 +29,12 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
 
     @Override
-    public List<PrescriptionMedicineMapper> create(List<CreatePrMedicineMappingRequest> requests) throws PmaException {
+    public List<PrescriptionMedicineMapper> create(List<CreatePrMedicineMappingRequest> requests, String pid) throws PmaException {
         List<PrescriptionMedicineMapper> prescriptions = new ArrayList<PrescriptionMedicineMapper>();
         for(CreatePrMedicineMappingRequest request : requests) {
             PrescriptionMedicineMapper prescription = new PrescriptionMedicineMapper();
             setDomainAttributes(prescription, request);
+            prescription.setPid(pid);
             prescriptions.add(prescription);
         }
         prescriptionRepository.saveAll(prescriptions);
@@ -64,7 +65,6 @@ public class PrescriptionServiceImpl implements PrescriptionService {
             throw new PmaException("No such medicine found");
         }
         prescription.setMedicine(medicine.get());
-        prescription.setPid(request.getPid());
         prescription.setQuantity(request.getQuantity());
         prescription.setRemarks(request.getRemarks());
         prescription.setNoOfDays(request.getNoOfDays());

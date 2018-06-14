@@ -14,10 +14,12 @@ import com.flipkart.pharma.prescriptionmanagement.model.response.InitiateValidat
 import com.flipkart.pharma.prescriptionmanagement.repository.DoctorRepository;
 import com.flipkart.pharma.prescriptionmanagement.repository.ValidationRepository;
 import com.flipkart.pharma.prescriptionmanagement.service.OTPService;
+import com.flipkart.pharma.prescriptionmanagement.service.PrescriptionService;
 import com.flipkart.pharma.prescriptionmanagement.service.ValidationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Slf4j
@@ -31,9 +33,13 @@ public class ValidationServiceImpl implements ValidationService {
     DoctorRepository doctorRepository;
 
     @Autowired
+    PrescriptionService prescriptionService;
+
+    @Autowired
     OTPService otpService;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public CreatePrescriptionValidationResponse createPrescriptionValidationRecord(CreatePrescriptionValidationRequest createPrescriptionValidationRequest)throws PmaException {
         Prescription prescription = new Prescription();
         CreatePrescriptionValidationResponse response = new CreatePrescriptionValidationResponse();
@@ -45,6 +51,7 @@ public class ValidationServiceImpl implements ValidationService {
             }while(validationRepository.getByPresciptionId(prescription.getPresciptionId()) != null);
             response.setPrescriptionId(prescription.getPresciptionId());
             validationRepository.save(prescription);
+            prescriptionService.create(createPrescriptionValidationRequest.getMedicines(), prescription.getPresciptionId());
             response.setStatus(Status.SUCCESS);
         }
         catch(Exception e){

@@ -17,9 +17,6 @@ import java.sql.Time;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CreatePrMedicineMappingRequest {
     @NotNull
-    private String pid;
-
-    @NotNull
     private Long medicineId;
 
     private Integer quantity;

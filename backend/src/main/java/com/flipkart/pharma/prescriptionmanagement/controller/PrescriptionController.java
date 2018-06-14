@@ -24,8 +24,9 @@ public class PrescriptionController {
 
     @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createPrescriptionMedicineMapping(
-            @RequestBody @Valid List<CreatePrMedicineMappingRequest> request) throws Exception {
-        List<PrescriptionMedicineMapper> prescriptions = prescriptionService.create(request);
+            @RequestBody @Valid List<CreatePrMedicineMappingRequest> request,
+            @RequestParam(name = "pid", required = false) String pid) throws Exception {
+        List<PrescriptionMedicineMapper> prescriptions = prescriptionService.create(request, pid);
         return new ResponseEntity(prescriptions, HttpStatus.OK);
     }
 
