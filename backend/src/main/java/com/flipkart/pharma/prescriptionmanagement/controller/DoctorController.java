@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -26,6 +23,12 @@ public class DoctorController {
     @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createDoctor(@RequestBody @Valid CreateDoctorRequest request) throws Exception {
         Doctor doctor = doctorService.createDoctor(request);
+        return new ResponseEntity(doctor, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getDoctor(@RequestParam(name = "din", required = true) String din) throws Exception {
+        Doctor doctor = doctorService.search(din);
         return new ResponseEntity(doctor, HttpStatus.OK);
     }
 

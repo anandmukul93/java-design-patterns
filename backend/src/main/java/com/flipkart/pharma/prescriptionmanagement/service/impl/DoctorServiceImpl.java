@@ -3,7 +3,6 @@ package com.flipkart.pharma.prescriptionmanagement.service.impl;
 import com.flipkart.pharma.prescriptionmanagement.domain.Doctor;
 import com.flipkart.pharma.prescriptionmanagement.exception.DoctorException;
 import com.flipkart.pharma.prescriptionmanagement.model.request.CreateDoctorRequest;
-import com.flipkart.pharma.prescriptionmanagement.model.response.DoctorResponse;
 import com.flipkart.pharma.prescriptionmanagement.repository.DoctorRepository;
 import com.flipkart.pharma.prescriptionmanagement.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,12 @@ public class DoctorServiceImpl implements DoctorService {
     private DoctorRepository doctorRepository;
 
     @Override
-    public DoctorResponse getDoctor(String DIN) {
-        return new DoctorResponse();
+    public Doctor search(String DIN) throws DoctorException{
+        try {
+            return doctorRepository.searchByDIN(DIN);
+        } catch (Exception e) {
+            throw new DoctorException("Error while getting doctor");
+        }
     }
 
     private void setDomainAttributes(Doctor doctor, CreateDoctorRequest request) {
@@ -37,4 +40,6 @@ public class DoctorServiceImpl implements DoctorService {
             throw new DoctorException("Error while adding new doctor");
         }
     }
+
+
 }
