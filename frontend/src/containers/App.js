@@ -14,12 +14,12 @@ class App extends Component {
                 <div>
                     <Row>
                         <Col xs={10} xsOffset={1}>
-                            <nav class="navbar navbar-inverse">
-                                <div class="container-fluid">
-                                    <div class="navbar-header">
-                                        <a class="navbar-brand" href="#">Medical Prescription Validating Application</a>
+                            <nav className="navbar navbar-inverse">
+                                <div className="container-fluid">
+                                    <div className="navbar-header">
+                                        <a className="navbar-brand" href="/Doctor">Medical Prescription Validating Application</a>
                                     </div>
-                                    <ul class="nav navbar-nav">
+                                    <ul className="nav navbar-nav" style={{float: 'right'}}>
                                         <li><a href="/Doctor">Doctor Registration</a></li>
                                         <li><a href="/Seller">Seller Registration</a></li>
                                         <li><a href="/Prescription">Prescription Registration</a></li>
@@ -27,11 +27,16 @@ class App extends Component {
                                 </div>
                             </nav>
                             <hr />
-                            <Switch>
-                                <Route exact path='/Doctor' component={Doctor} />
-                                <Route exact path='/Seller' component={Seller} />
-                                <Route exact path='/Prescription' component={Prescription} />
-                            </Switch>
+                            <Row style={{height: '400px'}}>
+                                <Switch>
+                                    <Route exact path='/Doctor' component={Doctor} />
+                                    <Route exact path='/Seller' component={Seller} />
+                                    <Route exact path='/Prescription' component={Prescription} />
+                                </Switch>
+                            </Row>
+                            <footer className="container-fluid bg-4 text-center" style={{'borderRadius': '4px'}}>
+                                <p>Medical Prescription Validating Application</p> 
+                            </footer>
                         </Col>
                     </Row>
                 </div>
