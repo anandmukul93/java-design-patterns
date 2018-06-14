@@ -34,6 +34,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         for(CreatePrMedicineMappingRequest request : requests) {
             PrescriptionMedicineMapper prescription = new PrescriptionMedicineMapper();
             setDomainAttributes(prescription, request);
+            prescriptions.add(prescription);
         }
         prescriptionRepository.saveAll(prescriptions);
         return prescriptions;
