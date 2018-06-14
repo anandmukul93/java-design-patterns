@@ -9,11 +9,14 @@ import com.flipkart.pharma.prescriptionmanagement.model.response.CreatePrescript
 import com.flipkart.pharma.prescriptionmanagement.model.response.InitiateValidationResponse;
 import com.flipkart.pharma.prescriptionmanagement.service.ValidationService;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import javax.ws.rs.core.MediaType;
 
 @RestController
@@ -25,17 +28,17 @@ public class ValidationController {
     private ValidationService validationService;
 
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
-    public CreatePrescriptionValidationResponse create(CreatePrescriptionValidationRequest createPrescriptionValidationRequest)throws Exception {
+    public CreatePrescriptionValidationResponse create(@RequestBody @Valid CreatePrescriptionValidationRequest createPrescriptionValidationRequest)throws Exception {
         return validationService.createPrescriptionValidationRecord(createPrescriptionValidationRequest);
     }
 
     @RequestMapping(value = "/initiate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
-    public InitiateValidationResponse initiate(InitiateValidationRequest initiateValidationRequest)throws Exception {
+    public InitiateValidationResponse initiate(@RequestBody @Valid InitiateValidationRequest initiateValidationRequest)throws Exception {
         return validationService.initiateValidation(initiateValidationRequest);
     }
 
     @RequestMapping(value = "/validate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces =  MediaType.APPLICATION_JSON)
-    public CheckValidationResponse validate(CheckValidationRequest checkValidationRequest) {
+    public CheckValidationResponse validate(@RequestBody @Valid CheckValidationRequest checkValidationRequest) {
         return validationService.checkValidation(checkValidationRequest);
     }
 }
