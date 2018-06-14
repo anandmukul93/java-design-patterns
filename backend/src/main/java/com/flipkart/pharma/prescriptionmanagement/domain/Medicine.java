@@ -1,5 +1,6 @@
 package com.flipkart.pharma.prescriptionmanagement.domain;
 
+import com.flipkart.pharma.prescriptionmanagement.common.MedicineType;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,4 +18,14 @@ public class Medicine {
     @TableGenerator(name = "seqGen", allocationSize = 50)
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    private MedicineType type;
+
+    @Column(name = "description")
+    private String description;
 }

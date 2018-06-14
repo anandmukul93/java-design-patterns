@@ -1,4 +1,4 @@
-package com.flipkart.pharma.prescriptionmanagement.model.response;
+package com.flipkart.pharma.prescriptionmanagement.model.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
@@ -12,10 +12,10 @@ import lombok.Data;
 @Data
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PrescriptionResponse {
-    private String pid;
-    private MedicineType medicineType;
+public class CreateMedicineRequest {
     private String medicineName;
-    private String quantity;
-    private String remarks;
+
+    private String description;
+
+    private MedicineType type = MedicineType.MEDICINE;
 }

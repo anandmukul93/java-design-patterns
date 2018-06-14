@@ -3,7 +3,7 @@ package com.flipkart.pharma.prescriptionmanagement.model.request;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.flipkart.pharma.prescriptionmanagement.common.PrescriptionType;
+import com.flipkart.pharma.prescriptionmanagement.common.MedicineType;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -17,8 +17,6 @@ import javax.validation.constraints.NotNull;
 public class CreatePrescriptionRequest {
     @NotNull
     private String pid;
-
-    private PrescriptionType type = PrescriptionType.MEDICINE;
 
     @NotNull
     private Long medicineId;

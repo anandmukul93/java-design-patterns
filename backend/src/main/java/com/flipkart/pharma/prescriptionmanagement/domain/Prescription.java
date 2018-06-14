@@ -1,6 +1,6 @@
 package com.flipkart.pharma.prescriptionmanagement.domain;
 
-import com.flipkart.pharma.prescriptionmanagement.common.PrescriptionType;
+import com.flipkart.pharma.prescriptionmanagement.common.MedicineType;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -21,10 +21,6 @@ public class Prescription {
 
     @Column(name = "pid")
     private String pid;
-
-    @Column(name = "type")
-    @Enumerated(EnumType.STRING)
-    private PrescriptionType type;
 
     @JoinColumn(name = "medicine_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
