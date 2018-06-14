@@ -1,10 +1,8 @@
 package com.flipkart.pharma.prescriptionmanagement.repository;
 
-import com.flipkart.pharma.prescriptionmanagement.domain.Validation;
+import com.flipkart.pharma.prescriptionmanagement.domain.Prescription;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
-
-public interface ValidationRepository extends CrudRepository<Validation, Long> {
-    public Validation getByPresciptionId(String prescriptionId);
+public interface ValidationRepository extends CrudRepository<Prescription, Long> {
+    public Prescription getByPresciptionId(String prescriptionId);
 }

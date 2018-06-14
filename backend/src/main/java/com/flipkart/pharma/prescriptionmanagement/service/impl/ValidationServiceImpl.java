@@ -3,7 +3,7 @@ package com.flipkart.pharma.prescriptionmanagement.service.impl;
 import com.flipkart.pharma.prescriptionmanagement.common.Status;
 import com.flipkart.pharma.prescriptionmanagement.common.Utils;
 import com.flipkart.pharma.prescriptionmanagement.common.Utils.StringType;
-import com.flipkart.pharma.prescriptionmanagement.domain.Validation;
+import com.flipkart.pharma.prescriptionmanagement.domain.Prescription;
 import com.flipkart.pharma.prescriptionmanagement.exception.PmaException;
 import com.flipkart.pharma.prescriptionmanagement.model.request.CheckValidationRequest;
 import com.flipkart.pharma.prescriptionmanagement.model.request.CreatePrescriptionValidationRequest;
@@ -35,16 +35,16 @@ public class ValidationServiceImpl implements ValidationService {
 
     @Override
     public CreatePrescriptionValidationResponse createPrescriptionValidationRecord(CreatePrescriptionValidationRequest createPrescriptionValidationRequest)throws PmaException {
-        Validation validation = new Validation();
+        Prescription prescription = new Prescription();
         CreatePrescriptionValidationResponse response = new CreatePrescriptionValidationResponse();
         try{
             if (doctorRepository.searchByDIN(createPrescriptionValidationRequest.getDocIdNo()) == null)
                 response.setStatus(Status.FAILURE);
             do {
-                this.setDomainAttributes(validation, createPrescriptionValidationRequest);
-            }while(validationRepository.getByPresciptionId(validation.getPresciptionId()) != null);
-            validationRepository.save(validation);
-            response.setPrescriptionId(validation.getPresciptionId());
+                this.setDomainAttributes(prescription, createPrescriptionValidationRequest);
+            }while(validationRepository.getByPresciptionId(prescription.getPresciptionId()) != null);
+            validationRepository.save(prescription);
+            response.setPrescriptionId(prescription.getPresciptionId());
             response.setStatus(Status.SUCCESS);
         }
         catch(Exception e){
@@ -53,11 +53,11 @@ public class ValidationServiceImpl implements ValidationService {
         return response;
     }
 
-    private void setDomainAttributes(Validation validation, CreatePrescriptionValidationRequest request) {
-        validation.setDocIdNo(request.getDocIdNo());
-        validation.setIssuedEmail(request.getPatientEmail());
-        validation.setIssuedPhoneNo(request.getPatientPhoneNo());
-        validation.setPresciptionId(Utils.uniqueString(PID_LENGTH, StringType.PID));
+    private void setDomainAttributes(Prescription prescription, CreatePrescriptionValidationRequest request) {
+        prescription.setDocIdNo(request.getDocIdNo());
+        prescription.setIssuedEmail(request.getPatientEmail());
+        prescription.setIssuedPhoneNo(request.getPatientPhoneNo());
+        prescription.setPresciptionId(Utils.uniqueString(PID_LENGTH, StringType.PID));
     }
 
     @Override
@@ -76,8 +76,8 @@ public class ValidationServiceImpl implements ValidationService {
     @Override
     public InitiateValidationResponse initiateValidation(InitiateValidationRequest initiateValidationRequest)throws PmaException {
         try {
-            Validation validation = validationRepository.getByPresciptionId(initiateValidationRequest.getPrescriptionId());
-            otpService.generateOTP(initiateValidationRequest.getPrescriptionId(), validation.getIssuedPhoneNo());
+            Prescription prescription = validationRepository.getByPresciptionId(initiateValidationRequest.getPrescriptionId());
+            otpService.generateOTP(initiateValidationRequest.getPrescriptionId(), prescription.getIssuedPhoneNo());
         }
         catch(PmaException e){
             log.error(e.getMessage());

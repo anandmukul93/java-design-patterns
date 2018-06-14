@@ -12,8 +12,8 @@ import javax.validation.constraints.Email;
 
 @Entity
 @Data
-@Table(name = "validation")
-public class Validation {
+@Table(name = "prescription")
+public class Prescription {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
