@@ -8,6 +8,8 @@ import com.flipkart.pharma.prescriptionmanagement.service.MedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * Created by sourabh.d on 14/06/18.
  */
@@ -26,6 +28,16 @@ public class MedicineServiceImpl implements MedicineService {
             return medicine;
         } catch (Exception e) {
             throw new PmaException("Error while adding new medicine");
+        }
+    }
+
+    @Override
+    public List<Medicine> search(String name) throws PmaException {
+        try {
+            List<Medicine> medicines = medicineRepository.searchByName(name);
+            return medicines;
+        } catch (Exception e) {
+            throw new PmaException("Error while searching medicines");
         }
     }
 
