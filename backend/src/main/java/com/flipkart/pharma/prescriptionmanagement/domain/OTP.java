@@ -1,13 +1,20 @@
 package com.flipkart.pharma.prescriptionmanagement.domain;
 
+import lombok.Data;
+import org.hibernate.annotations.Type;
+import org.joda.time.format.DateTimeFormat;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 
+@Data
 @Entity
 @Table(name = "otp")
 public class OTP {
@@ -24,7 +31,8 @@ public class OTP {
     private String prescriptionId;
 
     @Column(name = "expiration_time")
-    private Date epxiration_time;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date epxirationTime;
 
     @Column(name = "is_valid")
     private Boolean isValid;

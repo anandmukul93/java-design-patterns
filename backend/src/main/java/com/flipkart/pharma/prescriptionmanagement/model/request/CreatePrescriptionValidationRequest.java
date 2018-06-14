@@ -9,6 +9,7 @@ import lombok.Data;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CreatePrescriptionValidationRequest {
+    private String docIdNo;
     private String patientPhoneNo;
     private String patientEmail;
     private String doctorIdentificationNumber;

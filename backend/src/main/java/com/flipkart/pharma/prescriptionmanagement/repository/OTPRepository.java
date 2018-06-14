@@ -4,4 +4,5 @@ import com.flipkart.pharma.prescriptionmanagement.domain.OTP;
 import org.springframework.data.repository.CrudRepository;
 
 public interface OTPRepository extends CrudRepository<OTP, Long> {
+    public OTP findByPrescriptionIdAndIsValid(String prescriptionId, boolean isValid);
 }

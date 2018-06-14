@@ -23,8 +23,8 @@ public class ValidationController {
     private ValidationService validationService;
 
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
-    public CreatePrescriptionValidationResponse create(CreatePrescriptionValidationRequest createPrescriptionValidationRequest) {
-        return null;
+    public CreatePrescriptionValidationResponse create(CreatePrescriptionValidationRequest createPrescriptionValidationRequest)throws Exception {
+        return validationService.createPrescriptionValidationRecord(createPrescriptionValidationRequest);
     }
 
     @RequestMapping(value = "/initiate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
