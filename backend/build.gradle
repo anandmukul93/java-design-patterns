@@ -43,4 +43,5 @@ dependencies {
 	compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: spring_boot_version) {
 		exclude module: 'spring-boot-starter-tomcat'
 	}
+	compile 'com.twilio.sdk:twilio:7.17.+'
 }

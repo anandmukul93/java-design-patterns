@@ -44,7 +44,7 @@ public class OTPServiceImpl  implements OTPService {
         otp.setOTP(Utils.uniqueString(OTP_LENGTH, StringType.OTP));
     }
 
-    private boolean validateOTP(CheckValidationRequest request) {
+    public boolean validateOTP(CheckValidationRequest request) {
         OTP otp = otpRepository.findByPrescriptionIdAndIsValid(request.getPrescriptionId(), true);
         if(otp != null){
             return otp.getEpxirationTime().after(request.getValidationTimeStamp());
