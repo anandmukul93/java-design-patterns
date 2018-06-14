@@ -27,7 +27,7 @@ public class Prescription {
     @Column(name = "issued_phone_no")
     private String issuedPhoneNo;
 
-    @Email
+    @Email(message = "Email should be valid format")
     @Column(name = "issued_email")
     private String issuedEmail;
 

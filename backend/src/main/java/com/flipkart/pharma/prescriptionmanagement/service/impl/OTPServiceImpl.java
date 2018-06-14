@@ -21,33 +21,33 @@ public class OTPServiceImpl  implements OTPService {
 
     public void generateOTP(String documentId, String beneficiaryNo)throws PmaException{
         OTP otp = new OTP();
-        this.setDomainAttributes(otp, documentId);
         try {
-            OTP oldValidOTP = otpRepository.findByPrescriptionIdAndIsValid(otp.getPrescriptionId(), true);
+            OTP oldValidOTP = otpRepository.findByPrescriptionIdAndIsValid(documentId, true);
             if(oldValidOTP != null){
                 oldValidOTP.setIsValid(false);
                 otpRepository.save(oldValidOTP);
             }
+            this.setDomainAttributes(otp, documentId);
             otpRepository.save(otp);
         }
         catch(Exception e){
             throw new PmaException("error generating OTP for pid : " + documentId);
         }
         String smsString = String.format("Your OTP for prescription validation is : %s", otp.getOTP());
-         SMSClient.sendSMS(smsString,beneficiaryNo);
+        SMSClient.sendSMS(smsString,beneficiaryNo);
     }
 
     private void setDomainAttributes(OTP otp, String documentId) {
         otp.setPrescriptionId(documentId);
-        otp.setEpxirationTime(new Date());
+        otp.setEpxirationTime(new Date(System.currentTimeMillis()+15*60*1000)); //15 mins expiration time
         otp.setIsValid(true);
         otp.setOTP(Utils.uniqueString(OTP_LENGTH, StringType.OTP));
     }
 
-    public boolean validateOTP(CheckValidationRequest request) {
+    public  boolean validateOTP(CheckValidationRequest request) {
         OTP otp = otpRepository.findByPrescriptionIdAndIsValid(request.getPrescriptionId(), true);
         if(otp != null){
-            return otp.getEpxirationTime().after(request.getValidationTimeStamp());
+            return otp.getEpxirationTime().equals(request.getValidationTimeStamp()) || otp.getEpxirationTime().after(request.getValidationTimeStamp());
         }
         return false;
     }
