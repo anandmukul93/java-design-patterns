@@ -7,7 +7,9 @@ import com.flipkart.pharma.prescriptionmanagement.model.response.DoctorResponse;
 import com.flipkart.pharma.prescriptionmanagement.repository.DoctorRepository;
 import com.flipkart.pharma.prescriptionmanagement.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DoctorServiceImpl implements DoctorService {
 
     @Autowired
