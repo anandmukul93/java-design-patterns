@@ -46,9 +46,9 @@ const doctorRegistration = `http://172.29.132.4:8080/doctor`;
     render() {
       return (
         <div>
-            <h2>
+            <h4 style={{ textAlign: 'center' }}>
                 Doctor Registration
-            </h2>
+            </h4>
             <Row className="show-grid">
               <Col xs={6} xsOffset={3}>
               <form onSubmit={this.handleSubmit}>
