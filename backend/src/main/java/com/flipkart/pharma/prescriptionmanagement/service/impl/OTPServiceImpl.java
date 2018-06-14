@@ -19,7 +19,7 @@ public class OTPServiceImpl  implements OTPService {
     @Autowired
     private OTPRepository otpRepository;
 
-    public void generateOTP(String documentId, String beneficiaryNo)throws PmaException{
+    public void generateOTP(String documentId, String beneficiaryNo) throws Exception {
         OTP otp = new OTP();
         try {
             OTP oldValidOTP = otpRepository.findByPrescriptionIdAndIsValid(documentId, true);
@@ -33,7 +33,7 @@ public class OTPServiceImpl  implements OTPService {
         catch(Exception e){
             throw new PmaException("error generating OTP for pid : " + documentId);
         }
-        String smsString = String.format("Your OTP for prescription validation is : %s", otp.getOTP());
+        String smsString = String.format("Your+OTP+for+prescription+validation+is+:+%s", otp.getOTP());
         SMSClient.sendSMS(smsString,beneficiaryNo);
     }
 

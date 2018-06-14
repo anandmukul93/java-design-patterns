@@ -1,8 +1,8 @@
 package com.flipkart.pharma.prescriptionmanagement.Schedular;
 
+import com.flipkart.pharma.prescriptionmanagement.client.SMSClient;
 import com.flipkart.pharma.prescriptionmanagement.domain.Prescription;
 import com.flipkart.pharma.prescriptionmanagement.domain.PrescriptionMedicineMapper;
-import com.flipkart.pharma.prescriptionmanagement.exception.PmaException;
 import com.flipkart.pharma.prescriptionmanagement.repository.PrescriptionMedicineMappingRepository;
 import com.flipkart.pharma.prescriptionmanagement.repository.ValidationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,12 +37,12 @@ public class Remainders {
 
     @Scheduled(fixedDelay = 300000)
     @Transactional
-    public void pillsRemainder() throws PmaException {
+    public void pillsRemainder() throws Exception {
         List<Prescription> prescriptions = validationRepository.getByIsPurchased(true);
         for(Prescription prescription : prescriptions) {
            if(prescription.getToNotify() != null && prescription.getToNotify()) {
                List<PrescriptionMedicineMapper> prescriptionResponses = prescriptionRepository.getByPid(prescription.getPresciptionId());
-               StringBuilder message = new StringBuilder("Pills remainder : ");
+               StringBuilder message = new StringBuilder("Pills+remainder:");
                Boolean isAny = false;
                Date time = new Date(System.currentTimeMillis() - 3600 * 1000);
                for(PrescriptionMedicineMapper mapping : prescriptionResponses) {
@@ -50,11 +50,14 @@ public class Remainders {
                    Time time1 = new Time(time.getTime());
                    Date pillDate = new Date(System.currentTimeMillis());
                    if(pillTime.before(time1)) {
+                       if(isAny)
+                           message.append(",");
                        isAny = true;
-                       message.append(" Medicine name : " + mapping.getMedicine().getName());
+                       message.append("Medicine+name:" + mapping.getMedicine().getName());
                    }
                }
                if(isAny) {
+                   //SMSClient.sendSMS(message.toString(), prescription.getIssuedPhoneNo());
                    System.out.println(message.toString());
                }
            }

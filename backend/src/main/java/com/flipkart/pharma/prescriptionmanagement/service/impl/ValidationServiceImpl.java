@@ -90,6 +90,8 @@ public class ValidationServiceImpl implements ValidationService {
         catch(PmaException e){
             log.error(e.getMessage());
             throw e;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         InitiateValidationResponse response = new InitiateValidationResponse();
         response.setPid(initiateValidationRequest.getPrescriptionId());
