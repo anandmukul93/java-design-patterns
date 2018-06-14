@@ -9,4 +9,6 @@ import com.flipkart.pharma.prescriptionmanagement.model.request.CreateSellerRequ
  */
 public interface SellerService {
     Seller create(CreateSellerRequest request) throws PmaException;
+
+    void updatePurchase(String pid) throws PmaException;
 }

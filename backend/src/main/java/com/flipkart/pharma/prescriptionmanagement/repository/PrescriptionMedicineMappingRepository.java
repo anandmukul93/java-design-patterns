@@ -8,6 +8,6 @@ import java.util.List;
 /**
  * Created by sourabh.d on 14/06/18.
  */
-public interface PrescriptionRepository extends CrudRepository<PrescriptionMedicineMapper, Long> {
+public interface PrescriptionMedicineMappingRepository extends CrudRepository<PrescriptionMedicineMapper, Long> {
     List<PrescriptionMedicineMapper> getByPid(String pid);
 }

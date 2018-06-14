@@ -41,4 +41,5 @@ public class ValidationController {
     public CheckValidationResponse validate(@RequestBody @Valid CheckValidationRequest checkValidationRequest) {
         return validationService.checkValidation(checkValidationRequest);
     }
+
 }

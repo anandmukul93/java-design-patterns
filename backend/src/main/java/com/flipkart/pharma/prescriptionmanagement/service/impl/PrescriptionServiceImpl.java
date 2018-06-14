@@ -2,11 +2,11 @@ package com.flipkart.pharma.prescriptionmanagement.service.impl;
 
 import com.flipkart.pharma.prescriptionmanagement.domain.Medicine;
 import com.flipkart.pharma.prescriptionmanagement.exception.PmaException;
-import com.flipkart.pharma.prescriptionmanagement.model.request.CreatePrescriptionRequest;
+import com.flipkart.pharma.prescriptionmanagement.model.request.CreatePrMedicineMappingRequest;
 import com.flipkart.pharma.prescriptionmanagement.domain.PrescriptionMedicineMapper;
 import com.flipkart.pharma.prescriptionmanagement.model.response.PrescriptionResponse;
 import com.flipkart.pharma.prescriptionmanagement.repository.MedicineRepository;
-import com.flipkart.pharma.prescriptionmanagement.repository.PrescriptionRepository;
+import com.flipkart.pharma.prescriptionmanagement.repository.PrescriptionMedicineMappingRepository;
 import com.flipkart.pharma.prescriptionmanagement.service.PrescriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,15 +25,18 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     private MedicineRepository medicineRepository;
 
     @Autowired
-    private PrescriptionRepository prescriptionRepository;
+    private PrescriptionMedicineMappingRepository prescriptionRepository;
 
 
     @Override
-    public PrescriptionMedicineMapper create(CreatePrescriptionRequest request) throws PmaException {
-        PrescriptionMedicineMapper prescription = new PrescriptionMedicineMapper();
-        setDomainAttributes(prescription, request);
-        prescriptionRepository.save(prescription);
-        return prescription;
+    public List<PrescriptionMedicineMapper> create(List<CreatePrMedicineMappingRequest> requests) throws PmaException {
+        List<PrescriptionMedicineMapper> prescriptions = new ArrayList<PrescriptionMedicineMapper>();
+        for(CreatePrMedicineMappingRequest request : requests) {
+            PrescriptionMedicineMapper prescription = new PrescriptionMedicineMapper();
+            setDomainAttributes(prescription, request);
+        }
+        prescriptionRepository.saveAll(prescriptions);
+        return prescriptions;
     }
 
     @Override
@@ -54,7 +57,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         return responses;
     }
 
-    private void setDomainAttributes(PrescriptionMedicineMapper prescription, CreatePrescriptionRequest request) throws PmaException {
+    private void setDomainAttributes(PrescriptionMedicineMapper prescription, CreatePrMedicineMappingRequest request) throws PmaException {
         Optional<Medicine> medicine = medicineRepository.findById(request.getMedicineId());
         if(!medicine.isPresent()) {
             throw new PmaException("No such medicine found");
@@ -63,5 +66,8 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         prescription.setPid(request.getPid());
         prescription.setQuantity(request.getQuantity());
         prescription.setRemarks(request.getRemarks());
+        prescription.setNoOfDays(request.getNoOfDays());
+        prescription.setTime(request.getTime());
+        prescription.setToNotify(request.getToNotify());
     }
 }

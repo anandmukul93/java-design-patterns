@@ -4,6 +4,7 @@ import com.flipkart.pharma.prescriptionmanagement.common.MedicineType;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.sql.Time;
 
 /**
  * Created by sourabh.d on 14/06/18.
@@ -35,6 +36,9 @@ public class PrescriptionMedicineMapper {
     @Column(name = "number_of_days")
     private Integer noOfDays;
 
-    @Column(name = "number_of_times")
-    private Integer noOfTimes;
+    @Column(name = "time")
+    private Time time;
+
+    @Column(name = "to_notify")
+    private Boolean toNotify;
 }

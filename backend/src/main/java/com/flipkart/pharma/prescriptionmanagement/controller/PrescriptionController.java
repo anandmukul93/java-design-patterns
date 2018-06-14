@@ -1,7 +1,7 @@
 package com.flipkart.pharma.prescriptionmanagement.controller;
 
 import com.flipkart.pharma.prescriptionmanagement.domain.PrescriptionMedicineMapper;
-import com.flipkart.pharma.prescriptionmanagement.model.request.CreatePrescriptionRequest;
+import com.flipkart.pharma.prescriptionmanagement.model.request.CreatePrMedicineMappingRequest;
 import com.flipkart.pharma.prescriptionmanagement.model.response.PrescriptionResponse;
 import com.flipkart.pharma.prescriptionmanagement.service.PrescriptionService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,14 +23,14 @@ public class PrescriptionController {
     private PrescriptionService prescriptionService;
 
     @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity createPrescription(
-            @RequestBody @Valid CreatePrescriptionRequest request) throws Exception {
-        PrescriptionMedicineMapper prescription = prescriptionService.create(request);
-        return new ResponseEntity(prescription, HttpStatus.OK);
+    public ResponseEntity createPrescriptionMedicineMapping(
+            @RequestBody @Valid List<CreatePrMedicineMappingRequest> request) throws Exception {
+        List<PrescriptionMedicineMapper> prescriptions = prescriptionService.create(request);
+        return new ResponseEntity(prescriptions, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{pid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getPrescription(@PathVariable("pid") String pid) throws Exception{
+    public ResponseEntity getPrescriptionDetails(@PathVariable("pid") String pid) throws Exception{
         List<PrescriptionResponse> responseList = prescriptionService.getPrescription(pid);
         return new ResponseEntity(responseList, HttpStatus.OK);
     }

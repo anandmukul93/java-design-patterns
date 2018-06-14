@@ -1,9 +1,12 @@
 package com.flipkart.pharma.prescriptionmanagement.service.impl;
 
+import com.flipkart.pharma.prescriptionmanagement.domain.Prescription;
 import com.flipkart.pharma.prescriptionmanagement.domain.Seller;
 import com.flipkart.pharma.prescriptionmanagement.exception.PmaException;
 import com.flipkart.pharma.prescriptionmanagement.model.request.CreateSellerRequest;
+import com.flipkart.pharma.prescriptionmanagement.repository.PrescriptionMedicineMappingRepository;
 import com.flipkart.pharma.prescriptionmanagement.repository.SellerRepository;
+import com.flipkart.pharma.prescriptionmanagement.repository.ValidationRepository;
 import com.flipkart.pharma.prescriptionmanagement.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,6 +20,9 @@ public class SellerServiceImpl implements SellerService {
 
     @Autowired
     private SellerRepository sellerRepository;
+
+    @Autowired
+    private ValidationRepository validationRepository;
 
     @Override
     public Seller create(CreateSellerRequest request) throws PmaException {
@@ -33,6 +39,16 @@ public class SellerServiceImpl implements SellerService {
         } catch (Exception e) {
             throw new PmaException("Error while adding new seller");
         }
+    }
+
+    @Override
+    public void updatePurchase(String pid) throws PmaException {
+        Prescription prescription = validationRepository.getByPresciptionId(pid);
+        if(prescription != null) {
+            throw new PmaException("No prescription found");
+        }
+        prescription.setIsPurchased(true);
+        validationRepository.save(prescription);
     }
 
     private void setDomainAttributes(Seller seller, CreateSellerRequest request) {
