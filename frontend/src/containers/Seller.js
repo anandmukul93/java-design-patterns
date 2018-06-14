@@ -47,9 +47,9 @@ export default class Seller extends Component {
     render() {
         return (
             <div>
-                <h2>
+                <h4 style={{ textAlign: 'center' }}>
                     Seller Registration
-                </h2>
+                </h4>
                 <Row className="show-grid">
                     <Col xs={6} xsOffset={3}>
                         <form onSubmit={this.handleSubmit}>
