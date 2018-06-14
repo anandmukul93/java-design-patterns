@@ -2,6 +2,7 @@ package com.flipkart.pharma.prescriptionmanagement.controller;
 
 import com.flipkart.pharma.prescriptionmanagement.domain.Prescription;
 import com.flipkart.pharma.prescriptionmanagement.model.request.CreatePrescriptionRequest;
+import com.flipkart.pharma.prescriptionmanagement.model.response.PrescriptionResponse;
 import com.flipkart.pharma.prescriptionmanagement.service.PrescriptionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/prescription")
@@ -27,8 +29,9 @@ public class PrescriptionController {
         return new ResponseEntity(prescription, HttpStatus.OK);
     }
 
-  /*  @RequestMapping(value = "/{pid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getPrescription(@PathVariable("pid") String pid) {
-
-    }*/
+    @RequestMapping(value = "/{pid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getPrescription(@PathVariable("pid") String pid) throws Exception{
+        List<PrescriptionResponse> responseList = prescriptionService.getPrescription(pid);
+        return new ResponseEntity(responseList, HttpStatus.OK);
+    }
 }

@@ -11,6 +11,8 @@ import com.flipkart.pharma.prescriptionmanagement.service.PrescriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -35,9 +37,21 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     }
 
     @Override
-    public PrescriptionResponse getPrescription(String pid) throws PmaException {
-      //  Prescription prescription = prescriptionRepository.findAllById()
-        return null;
+    public List<PrescriptionResponse> getPrescription(String pid) throws PmaException {
+        List<Prescription> prescriptions = prescriptionRepository.getByPid(pid);
+        List<PrescriptionResponse> responses = new ArrayList<PrescriptionResponse>();
+        for(Prescription prescription : prescriptions) {
+
+            PrescriptionResponse response  = PrescriptionResponse.builder()
+                    .medicineName(prescription.getMedicine().getName())
+                    .medicineType(prescription.getMedicine().getType())
+                    .quantity(prescription.getQuantity())
+                    .pid(prescription.getPid())
+                    .remarks(prescription.getRemarks()).build();
+            responses.add(response);
+        }
+
+        return responses;
     }
 
     private void setDomainAttributes(Prescription prescription, CreatePrescriptionRequest request) throws PmaException {
