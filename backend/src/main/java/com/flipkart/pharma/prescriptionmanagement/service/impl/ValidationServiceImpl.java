@@ -3,7 +3,6 @@ package com.flipkart.pharma.prescriptionmanagement.service.impl;
 import com.flipkart.pharma.prescriptionmanagement.common.Status;
 import com.flipkart.pharma.prescriptionmanagement.common.Utils;
 import com.flipkart.pharma.prescriptionmanagement.common.Utils.StringType;
-import com.flipkart.pharma.prescriptionmanagement.domain.Prescription;
 import com.flipkart.pharma.prescriptionmanagement.domain.Validation;
 import com.flipkart.pharma.prescriptionmanagement.exception.PmaException;
 import com.flipkart.pharma.prescriptionmanagement.model.request.CheckValidationRequest;
@@ -19,8 +18,6 @@ import com.flipkart.pharma.prescriptionmanagement.service.ValidationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 @Component
 @Slf4j

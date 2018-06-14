@@ -1,6 +1,6 @@
 package com.flipkart.pharma.prescriptionmanagement.controller;
 
-import com.flipkart.pharma.prescriptionmanagement.domain.Prescription;
+import com.flipkart.pharma.prescriptionmanagement.domain.PrescriptionMedicineMapper;
 import com.flipkart.pharma.prescriptionmanagement.model.request.CreatePrescriptionRequest;
 import com.flipkart.pharma.prescriptionmanagement.model.response.PrescriptionResponse;
 import com.flipkart.pharma.prescriptionmanagement.service.PrescriptionService;
@@ -25,7 +25,7 @@ public class PrescriptionController {
     @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createPrescription(
             @RequestBody @Valid CreatePrescriptionRequest request) throws Exception {
-        Prescription prescription = prescriptionService.create(request);
+        PrescriptionMedicineMapper prescription = prescriptionService.create(request);
         return new ResponseEntity(prescription, HttpStatus.OK);
     }
 

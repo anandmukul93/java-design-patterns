@@ -3,7 +3,7 @@ package com.flipkart.pharma.prescriptionmanagement.service.impl;
 import com.flipkart.pharma.prescriptionmanagement.domain.Medicine;
 import com.flipkart.pharma.prescriptionmanagement.exception.PmaException;
 import com.flipkart.pharma.prescriptionmanagement.model.request.CreatePrescriptionRequest;
-import com.flipkart.pharma.prescriptionmanagement.domain.Prescription;
+import com.flipkart.pharma.prescriptionmanagement.domain.PrescriptionMedicineMapper;
 import com.flipkart.pharma.prescriptionmanagement.model.response.PrescriptionResponse;
 import com.flipkart.pharma.prescriptionmanagement.repository.MedicineRepository;
 import com.flipkart.pharma.prescriptionmanagement.repository.PrescriptionRepository;
@@ -29,8 +29,8 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
 
     @Override
-    public Prescription create(CreatePrescriptionRequest request) throws PmaException {
-        Prescription prescription = new Prescription();
+    public PrescriptionMedicineMapper create(CreatePrescriptionRequest request) throws PmaException {
+        PrescriptionMedicineMapper prescription = new PrescriptionMedicineMapper();
         setDomainAttributes(prescription, request);
         prescriptionRepository.save(prescription);
         return prescription;
@@ -38,9 +38,9 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
     @Override
     public List<PrescriptionResponse> getPrescription(String pid) throws PmaException {
-        List<Prescription> prescriptions = prescriptionRepository.getByPid(pid);
+        List<PrescriptionMedicineMapper> prescriptions = prescriptionRepository.getByPid(pid);
         List<PrescriptionResponse> responses = new ArrayList<PrescriptionResponse>();
-        for(Prescription prescription : prescriptions) {
+        for(PrescriptionMedicineMapper prescription : prescriptions) {
 
             PrescriptionResponse response  = PrescriptionResponse.builder()
                     .medicineName(prescription.getMedicine().getName())
@@ -54,7 +54,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         return responses;
     }
 
-    private void setDomainAttributes(Prescription prescription, CreatePrescriptionRequest request) throws PmaException {
+    private void setDomainAttributes(PrescriptionMedicineMapper prescription, CreatePrescriptionRequest request) throws PmaException {
         Optional<Medicine> medicine = medicineRepository.findById(request.getMedicineId());
         if(!medicine.isPresent()) {
             throw new PmaException("No such medicine found");

@@ -25,7 +25,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     private void setDomainAttributes(Doctor doctor, CreateDoctorRequest request) {
         doctor.setName(request.getName());
-        doctor.setDIN(request.getDIN());
+        doctor.setDIN(request.getDin());
         doctor.setPhone(request.getPhone());
     }
 

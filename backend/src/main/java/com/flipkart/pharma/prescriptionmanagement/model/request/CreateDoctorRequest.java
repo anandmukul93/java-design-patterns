@@ -18,7 +18,7 @@ public class CreateDoctorRequest {
     @NotNull
     private String name;
     @NotNull
-    private String DIN;
+    private String din;
 
     private String phone;
 }

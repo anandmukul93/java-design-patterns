@@ -1,9 +1,7 @@
 package com.flipkart.pharma.prescriptionmanagement.controller;
 
 import com.flipkart.pharma.prescriptionmanagement.domain.Medicine;
-import com.flipkart.pharma.prescriptionmanagement.domain.Prescription;
 import com.flipkart.pharma.prescriptionmanagement.model.request.CreateMedicineRequest;
-import com.flipkart.pharma.prescriptionmanagement.model.request.CreatePrescriptionRequest;
 import com.flipkart.pharma.prescriptionmanagement.service.MedicineService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

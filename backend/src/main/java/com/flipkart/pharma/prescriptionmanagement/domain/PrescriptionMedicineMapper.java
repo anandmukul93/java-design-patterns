@@ -10,8 +10,8 @@ import javax.persistence.*;
  */
 @Data
 @Entity
-@Table(name = "prescription")
-public class Prescription {
+@Table(name = "prescription_medicine_mapping")
+public class PrescriptionMedicineMapper {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "seqGen")
@@ -32,5 +32,9 @@ public class Prescription {
     @Column(name = "remarks")
     private String remarks;
 
+    @Column(name = "number_of_days")
+    private Integer noOfDays;
 
+    @Column(name = "number_of_times")
+    private Integer noOfTimes;
 }
