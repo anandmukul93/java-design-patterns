@@ -1,12 +1,9 @@
 import React, {Component} from "react";
-import {Alert, Row, Col, Button, FormGroup, FormControl, ControlLabel} from "react-bootstrap";
+import { Row, Col, Button, FormGroup, FormControl, ControlLabel} from "react-bootstrap";
 // import {TextField} from "material-ui";
 import axios from "axios";
    
-  // const colors = [
-  //   'Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple', 'Black', 'White'
-  // ];
-   
+const doctorRegistration = `http://172.29.132.4:8080/doctor`;
   export default class Doctor extends Component {
     constructor(props){
       super(props);
@@ -15,8 +12,7 @@ import axios from "axios";
           name: '',
           din: '',
           phone: ''
-        },
-        showStatus: false
+        }
       }
     }
 
@@ -32,28 +28,25 @@ import axios from "axios";
       event.preventDefault();
       const newDoctor = this.state.doctor;         
       var config = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-origin': '*' } };
-      axios.post(`http://172.29.132.0:8080/doctor`, newDoctor, config)
+      axios.post(doctorRegistration, newDoctor, config)
       .then(res => {
-        this.setState({showStatus: true});
+        console.log(res);
+        if(res.status == 200){
+          alert("Doctor Successfully created!!")
+          this.setState({doctor: {name: '', din: '', phone: ''}});
+        } else {
+          alert("Error creating doctor!!")
+        }
       })
     }
 
     
     render() {
-      function statusMessage(){
-        if (this.state.showStatus){
-          <Alert bsStyle="warning">
-            <strong>Holy guacamole!</strong> Best check yo self, you're not looking too
-            good.
-          </Alert>;
-        }
-      }  
       return (
         <div>
             <h2>
                 Doctor Registration
             </h2>
-            { statusMessage}
             <Row className="show-grid">
               <Col xs={6} xsOffset={3}>
               <form onSubmit={this.handleSubmit}>
