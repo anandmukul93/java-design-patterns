@@ -1,7 +1,8 @@
 import React, {Component} from "react";
-import {Alert, Row, Col, Button, FormGroup, FormControl, ControlLabel} from "react-bootstrap";
-// import {TextField} from "material-ui";
+import {Row, Col, Button, FormGroup, FormControl, ControlLabel} from "react-bootstrap";
 import axios from "axios";
+
+const sellerRegistrationURL = `http://localhost:8080/seller`;
 
 export default class Seller extends Component {
     constructor(props){
@@ -12,8 +13,7 @@ export default class Seller extends Component {
                 name: '',
                 phone: '',
                 address: ''
-            },
-            showStatus: false
+            }
         }
     }
 
@@ -29,10 +29,18 @@ export default class Seller extends Component {
         event.preventDefault();
         const newSeller = this.state.seller;
         var config = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-origin': '*' } };
-        axios.post(`http://localhost:8080/seller`, newSeller, config)
+        axios.post(sellerRegistrationURL, newSeller, config)
             .then(res => {
-                this.setState({showStatus: true});
+                if(res.status === 200){
+                    alert("Seller Successfully Registered!!")
+                    this.setState({doctor: {sid: '', name: '', phone: '', address: ''}});
+                } else {
+                    alert("Error registrating seller!!")
+                }
             })
+            .catch(function (error) {
+                alert("Error registrating seller!!", error);
+            });
     }
 
 
@@ -46,7 +54,7 @@ export default class Seller extends Component {
                     <Col xs={6} xsOffset={3}>
                         <form onSubmit={this.handleSubmit}>
                             <FormGroup controlId="sid" bsSize="large">
-                                <ControlLabel>Seller ID</ControlLabel>
+                                <ControlLabel>Registration Number</ControlLabel>
                                 <FormControl
                                     value={this.state.seller.sid}
                                     onChange={this.handleChange}

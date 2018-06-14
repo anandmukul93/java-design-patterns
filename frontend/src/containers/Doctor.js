@@ -30,14 +30,16 @@ const doctorRegistration = `http://172.29.132.4:8080/doctor`;
       var config = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-origin': '*' } };
       axios.post(doctorRegistration, newDoctor, config)
       .then(res => {
-        console.log(res);
-        if(res.status == 200){
-          alert("Doctor Successfully created!!")
+        if(res.status === 200){
+          alert("Doctor Successfully registered!!")
           this.setState({doctor: {name: '', din: '', phone: ''}});
         } else {
           alert("Error creating doctor!!")
         }
       })
+      .catch(function (error) {
+        alert("Error registrating doctor!!", error);
+      });
     }
 
     
