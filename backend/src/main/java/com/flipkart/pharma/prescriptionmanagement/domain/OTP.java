@@ -12,8 +12,6 @@ import java.util.Date;
 @Table(name = "otp")
 public class OTP {
 
-
-
     @Id
     @GeneratedValue(strategy =  GenerationType.SEQUENCE)
     @Column(name = "id")
