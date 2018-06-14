@@ -14,10 +14,12 @@ public class Doctor {
     @Column(name = "id")
     private Long id;
 
-    @Column(unique=true)
+    @Column(unique=true, name = "doc_id_no")
     private String DIN;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "phone")
     private String phone;
 }

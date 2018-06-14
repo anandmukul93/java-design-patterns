@@ -12,6 +12,7 @@ import com.flipkart.pharma.prescriptionmanagement.model.request.InitiateValidati
 import com.flipkart.pharma.prescriptionmanagement.model.response.CheckValidationResponse;
 import com.flipkart.pharma.prescriptionmanagement.model.response.CreatePrescriptionValidationResponse;
 import com.flipkart.pharma.prescriptionmanagement.model.response.InitiateValidationResponse;
+import com.flipkart.pharma.prescriptionmanagement.repository.DoctorRepository;
 import com.flipkart.pharma.prescriptionmanagement.repository.ValidationRepository;
 import com.flipkart.pharma.prescriptionmanagement.service.OTPService;
 import com.flipkart.pharma.prescriptionmanagement.service.ValidationService;
@@ -30,21 +31,29 @@ public class ValidationServiceImpl implements ValidationService {
     ValidationRepository validationRepository;
 
     @Autowired
+    DoctorRepository doctorRepository;
+
+    @Autowired
     OTPService otpService;
 
     @Override
     public CreatePrescriptionValidationResponse createPrescriptionValidationRecord(CreatePrescriptionValidationRequest createPrescriptionValidationRequest)throws PmaException {
         Validation validation = new Validation();
+        CreatePrescriptionValidationResponse response = new CreatePrescriptionValidationResponse();
         try{
+            if (doctorRepository.searchByDIN(createPrescriptionValidationRequest.getDocIdNo()) == null)
+                response.setStatus(Status.FAILURE);
             do {
                 this.setDomainAttributes(validation, createPrescriptionValidationRequest);
             }while(validationRepository.getByPresciptionId(validation.getPresciptionId()) != null);
             validationRepository.save(validation);
+            response.setPrescriptionId(validation.getPresciptionId());
+            response.setStatus(Status.SUCCESS);
         }
         catch(Exception e){
-            throw new PmaException("Error while creating a prescription validation");
+            response.setStatus(Status.FAILURE);
         }
-        return null;
+        return response;
     }
 
     private void setDomainAttributes(Validation validation, CreatePrescriptionValidationRequest request) {
