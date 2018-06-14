@@ -1,10 +1,9 @@
 import React, {Component} from "react";
 import { Row, Col, Button, FormGroup, FormControl, ControlLabel} from "react-bootstrap";
-// import {TextField} from "material-ui";
 import axios from "axios";
    
 const doctorRegistration = `http://172.29.132.4:8080/doctor`;
-  export default class Doctor extends Component {
+export default class Doctor extends Component {
     constructor(props){
       super(props);
       this.state = {
