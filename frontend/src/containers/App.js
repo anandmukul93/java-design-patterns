@@ -5,6 +5,8 @@ import Doctor from './Doctor';
 import Seller from './Seller';
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import Prescription from "./Prescription";
+import eStore from "./eStore.js";
+import OTP from "./OTP.js";
 
 class App extends Component {
 
@@ -23,6 +25,7 @@ class App extends Component {
                                         <li><a href="/Doctor">Doctor Registration</a></li>
                                         <li><a href="/Seller">Seller Registration</a></li>
                                         <li><a href="/Prescription">Prescription Registration</a></li>
+                                        <li><a href="/eStore">eStore</a></li>
                                     </ul>
                                 </div>
                             </nav>
@@ -32,6 +35,7 @@ class App extends Component {
                                     <Route exact path='/Doctor' component={Doctor} />
                                     <Route exact path='/Seller' component={Seller} />
                                     <Route exact path='/Prescription' component={Prescription} />
+                                    <Route exact path='/eStore' component={eStore} />
                                 </Switch>
                             </Row>
                             <footer className="container-fluid bg-4 text-center" style={{'borderRadius': '4px'}}>
