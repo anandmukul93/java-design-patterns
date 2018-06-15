@@ -11,14 +11,14 @@ export default class Seller extends Component {
             seller: {
                 sid: '',
                 name: '',
-                phone: '',
+                phone_number: '',
                 address: ''
             }
         }
     }
 
     validateForm() {
-        return this.state.seller.sid.length > 0 && this.state.seller.name.length > 0 && this.state.seller.phone.length > 0;
+        return this.state.seller.sid.length > 0 && this.state.seller.name.length > 0 && this.state.seller.phone_number.length > 0;
     }
 
     handleChange = event => {
@@ -29,11 +29,11 @@ export default class Seller extends Component {
         event.preventDefault();
         const newSeller = this.state.seller;
         var config = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-origin': '*' } };
-        axios.post(sellerRegistrationURL, newSeller, config)
+        axios.post(sellerRegistrationURL, newSeller)
             .then(res => {
                 if(res.status === 200){
                     alert("Seller Successfully Registered!!")
-                    this.setState({doctor: {sid: '', name: '', phone: '', address: ''}});
+                    this.setState({doctor: {sid: '', name: '', phone_number: '', address: ''}});
                 } else {
                     alert("Error registrating seller!!")
                 }
@@ -71,13 +71,13 @@ export default class Seller extends Component {
                                     type="name"
                                 />
                             </FormGroup>
-                            <FormGroup controlId="phone" bsSize="large">
+                            <FormGroup controlId="phone_number" bsSize="large">
                                 <ControlLabel>Phone</ControlLabel>
                                 <FormControl
-                                    value={this.state.seller.phone}
+                                    value={this.state.seller.phone_number}
                                     autoComplete="off"
                                     onChange={this.handleChange}
-                                    type="phone"
+                                    type="phone_number"
                                 />
                             </FormGroup>
                             <FormGroup controlId="address" bsSize="large">
