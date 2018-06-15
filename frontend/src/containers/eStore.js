@@ -45,7 +45,7 @@ export default class eStore extends Component {
             .then(res => {
                 if(res.status === 200){
                     alert("Successfully verified !!")
-                    this.state.showData = true
+                    this.setState({showData: true});
                 } else {
                     alert("Error in verification!!")
                 }
@@ -78,7 +78,6 @@ export default class eStore extends Component {
 
     render() {
         return (
-
             <div>
                 <h4 style={{ textAlign: 'center' }}>
                     e Store
@@ -157,7 +156,6 @@ export default class eStore extends Component {
                 </div>
                 }
             </div>
-
         );
     }
 }
