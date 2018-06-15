@@ -11,7 +11,7 @@ import com.flipkart.pharma.prescriptionmanagement.model.response.InitiateValidat
 public interface ValidationService {
     public CreatePrescriptionValidationResponse createPrescriptionValidationRecord(CreatePrescriptionValidationRequest createPrescriptionValidationRequest) throws PmaException;
 
-    public CheckValidationResponse checkValidation(CheckValidationRequest checkValidationRequest);
+    public CheckValidationResponse checkValidation(CheckValidationRequest checkValidationRequest) throws PmaException;
 
     public InitiateValidationResponse initiateValidation(InitiateValidationRequest initiateValidationRequest) throws PmaException;
 }

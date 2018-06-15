@@ -1,6 +1,7 @@
 package com.flipkart.pharma.prescriptionmanagement.controller;
 
 
+import com.flipkart.pharma.prescriptionmanagement.exception.PmaException;
 import com.flipkart.pharma.prescriptionmanagement.model.request.CheckValidationRequest;
 import com.flipkart.pharma.prescriptionmanagement.model.request.CreatePrescriptionValidationRequest;
 import com.flipkart.pharma.prescriptionmanagement.model.request.InitiateValidationRequest;
@@ -9,7 +10,6 @@ import com.flipkart.pharma.prescriptionmanagement.model.response.CreatePrescript
 import com.flipkart.pharma.prescriptionmanagement.model.response.InitiateValidationResponse;
 import com.flipkart.pharma.prescriptionmanagement.service.ValidationService;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,7 +38,7 @@ public class ValidationController {
     }
 
     @RequestMapping(value = "/validate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces =  MediaType.APPLICATION_JSON)
-    public CheckValidationResponse validate(@RequestBody @Valid CheckValidationRequest checkValidationRequest) {
+    public CheckValidationResponse validate(@RequestBody @Valid CheckValidationRequest checkValidationRequest) throws PmaException {
         return validationService.checkValidation(checkValidationRequest);
     }
 

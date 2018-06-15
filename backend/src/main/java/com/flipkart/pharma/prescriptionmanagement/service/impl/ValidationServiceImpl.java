@@ -11,6 +11,7 @@ import com.flipkart.pharma.prescriptionmanagement.model.request.InitiateValidati
 import com.flipkart.pharma.prescriptionmanagement.model.response.CheckValidationResponse;
 import com.flipkart.pharma.prescriptionmanagement.model.response.CreatePrescriptionValidationResponse;
 import com.flipkart.pharma.prescriptionmanagement.model.response.InitiateValidationResponse;
+import com.flipkart.pharma.prescriptionmanagement.model.response.PrescriptionResponse;
 import com.flipkart.pharma.prescriptionmanagement.repository.DoctorRepository;
 import com.flipkart.pharma.prescriptionmanagement.repository.ValidationRepository;
 import com.flipkart.pharma.prescriptionmanagement.service.OTPService;
@@ -20,6 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Component
 @Slf4j
@@ -37,6 +40,7 @@ public class ValidationServiceImpl implements ValidationService {
 
     @Autowired
     OTPService otpService;
+
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -69,33 +73,39 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
-    public CheckValidationResponse checkValidation(CheckValidationRequest checkValidationRequest) {
+    public CheckValidationResponse checkValidation(CheckValidationRequest checkValidationRequest) throws PmaException {
         boolean result =  otpService.validateOTP(checkValidationRequest);
         CheckValidationResponse response = new CheckValidationResponse();
         response.setPrescriptionId(checkValidationRequest.getPrescriptionId());
-        if(result)
+        if(result) {
+            List<PrescriptionResponse> prescriptionResponseList = prescriptionService.getPrescription(checkValidationRequest.getPrescriptionId());
             response.setStatus(Status.SUCCESS);
-        else
+            response.setPrescriptionResponses(prescriptionResponseList);
+            response.setPrescriptionId(checkValidationRequest.getPrescriptionId());
+        } else {
             response.setStatus(Status.FAILURE);
+        }
 
         return response;
     }
 
     @Override
     public InitiateValidationResponse initiateValidation(InitiateValidationRequest initiateValidationRequest)throws PmaException {
+        InitiateValidationResponse response = new InitiateValidationResponse();
         try {
             Prescription prescription = validationRepository.getByPresciptionId(initiateValidationRequest.getPrescriptionId());
             otpService.generateOTP(initiateValidationRequest.getPrescriptionId(), prescription.getIssuedPhoneNo());
+            response.setPid(initiateValidationRequest.getPrescriptionId());
+            response.setStatus(Status.SUCCESS);
         }
         catch(PmaException e){
             log.error(e.getMessage());
             throw e;
         } catch (Exception e) {
             e.printStackTrace();
+            response.setPid(initiateValidationRequest.getPrescriptionId());
+            response.setStatus(Status.FAILURE);
         }
-        InitiateValidationResponse response = new InitiateValidationResponse();
-        response.setPid(initiateValidationRequest.getPrescriptionId());
-        response.setStatus(Status.SUCCESS);
         return response;
     }
 }
