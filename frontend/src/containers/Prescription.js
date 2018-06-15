@@ -7,7 +7,7 @@ import axios from "axios";
 // import { Checkbox } from "material-ui";
 
 const prescriptionRegistrationURL = `http://localhost:8080/validation`;
-const medicineFetchUrl = "http://localhost:8080/medicine"
+const medicineFetchUrl = `http://localhost:8080/medicine`
 class Item extends React.Component {
     constructor(props){
         super(props)
@@ -47,10 +47,10 @@ class Item extends React.Component {
 
     render() {
         let optionItems = this.props.options.map((e,i) => {return {value : {id: e.id, index: i}, label: e.name}});
-        let style = {padding: '5px', margin: '5px'}
+        let style = {padding: '5px', margin: '15px'}
         return (
         <div>
-            <Dropdown onChange =  {this.handleSelect} value = {optionItems[this.state.medicineSelected]} placeholder="select a medicine" options={optionItems}/>
+            <Dropdown onChange =  {this.handleSelect} value = {optionItems[this.state.medicineSelected]} placeholder="select a medicine" options={optionItems} style = {style}/>
             <input onChange ={this.handleChangeQuantity} placeholder="Enter quantity" style = {style}/>
             <input onChange = {this.handleChangeDays} placeholder = "Enter no of days" style = {style}/>
             <input onChange = {this.handleTimeChange} placeholder = "Set time" style = {style}/>
@@ -140,6 +140,8 @@ export default class Prescription extends Component {
     render() {
         let showPrescriptionView = !this.state.submitted;
         let prescriptionListData = this.state.prescriptionItems;
+        let style = {padding: '5px', margin: '15px', border: '2px solid black', backgroundColor: '#337ab7', color:'white'}
+        let style2 = {padding: '5px', margin: '10px', border: '2px solid black', backgroundColor: 'red', color:'white'}
         return (
             <div>
                 <h2>
@@ -149,7 +151,7 @@ export default class Prescription extends Component {
                     <Col xs={6} xsOffset={3}>
                         <div>
                         <form onSubmit={this.handleSubmit}>
-                            <FormGroup controlId="doc_id_no" bsSize="large">
+                            <FormGroup controlId="doc_id_no" bsSize="medium">
                                 <ControlLabel>Doctor Identification Number</ControlLabel>
                                 <FormControl
                                     value={this.state.prescription.doc_id_no}
@@ -158,7 +160,7 @@ export default class Prescription extends Component {
                                     type="text"
                                 />
                             </FormGroup>
-                            <FormGroup controlId="patient_phone_no" bsSize="large">
+                            <FormGroup controlId="patient_phone_no" bsSize="medium">
                                 <ControlLabel>Patient Phone</ControlLabel>
                                 <FormControl
                                     value={this.state.prescription.patient_phone_no}
@@ -167,7 +169,7 @@ export default class Prescription extends Component {
                                     type="phone"
                                 />
                             </FormGroup>
-                            <FormGroup controlId="patient_email" bsSize="large">
+                            <FormGroup controlId="patient_email" bsSize="medium">
                                 <ControlLabel>Patient Email</ControlLabel>
                                 <FormControl
                                     autoFocus
@@ -187,19 +189,19 @@ export default class Prescription extends Component {
                                     disabled={!this.validateForm()}
                                     type="submit"
                             >
-                                Add more details
+                                Add medicines details
                             </Button>
                             }
                         </form>
                         </div>
-            
+                    
                     {this.state.submitted &&  
                     (<div>
-                
-				    <Button onClick={() => this.addMore()}>Add more</Button>
+                    
+				    <Button style = {style2} onClick={() => this.addMore()}>Add medicine</Button>
 				    {prescriptionListData.map((item, i) => this.getPrescriptionListItemView(i))}       
-				    
-                    <button onClick={() => this.submitPrescriptionItems()}>Submit Prescription items</button>                      
+			
+                    <button style = {style} onClick={() => this.submitPrescriptionItems()}>Submit Prescription items</button>                      
                     </div>)
                     }
                     </Col>
