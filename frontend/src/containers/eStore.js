@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Alert, Row, Col, Button, FormGroup, FormControl, ControlLabel} from "react-bootstrap";
+import {Alert,JsonTable, Row, Col, Button, FormGroup, FormControl, ControlLabel} from "react-bootstrap";
 // import {TextField} from "material-ui";
 import axios from "axios";
 
@@ -19,9 +19,45 @@ export default class eStore extends Component {
                 validation_time_stamp: ''
             },
             showForm: false,
-            showData: false
+            showData: false,
+            data:{
+                status:'',
+                prescription_id:'',
+                prescription_responses:[
+                 {
+                    medicine_name:'',
+                    quantity:''
+                 }
+                ]
+            },
+            temp:null
         }
     }
+
+   //  columns () {
+   //  return [
+   //      {key: 'pid', label: 'prescription_id'}
+   //  ];
+   // }
+    columns () {
+    return [
+        {key: 'name', label: 'Name'},
+        {key: 'age', label: 'Age'},
+        {key: 'color', label: 'Color', cell: (obj, key) => {
+            return <span>{ obj[key] }</span>;
+        }}
+    ];
+  }
+
+  data () {
+    return new Promise((resolve, reject) => {
+      resolve([
+        { name: 'Louise', age: 27, color: 'red' },
+        { name: 'Margaret', age: 15, color: 'blue'},
+        { name: 'Lisa', age:34, color: 'yellow'}
+      ]);
+   });
+  }
 
     validateForm() {
         return this.state.eStore.prescription_id.length > 0;
@@ -42,11 +78,12 @@ export default class eStore extends Component {
         newOTP.prescription_otp = this.state.otp.prescription_otp;
         newOTP.validation_time_stamp = "2018-06-14 23:00:01";
         let config = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-origin': '*' } };
-        axios.post(otpURL, newOTP, config)
+        axios.post(otpURL, newOTP)
             .then(res => {
                 if(res.status === 200){
                     alert("Successfully verified !!")
-                    this.setState({showData: true});
+                    //this.state.data = res.data;
+                    this.setState({showData: true, data: res.data});
                 } else {
                     alert("Error in verification!!")
                 }
@@ -60,7 +97,7 @@ export default class eStore extends Component {
         event.preventDefault();
         const newEStore = this.state.eStore;
         let config = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-origin': '*' } };
-        axios.post(validationURL, newEStore, config)
+        axios.post(validationURL, newEStore)
             .then(res => {
                 if(res.status === 200){
                     alert("OTP sent successfully!!")
@@ -153,10 +190,28 @@ export default class eStore extends Component {
                 }
                 {this.state.showData &&
                 <div>
-                    <h1>showing data</h1>
+                    <h1>Medicines</h1>
+                    <table id="t01">
+                    <tr>
+                        <th>Medicine Name</th>
+                        <th>Quantity</th> 
+                    </tr>
+                    <tbody>{this.state.data.prescription_responses.map(function(item, key) {
+             
+                       return (
+                          <tr key = {key}>
+                              <td>{item.medicine_name}</td>
+                              <td>{item.quantity}</td>
+                          </tr>
+                        )
+             
+                    })}</tbody>
+                    </table>
                 </div>
                 }
             </div>
+
         );
+
     }
 }
