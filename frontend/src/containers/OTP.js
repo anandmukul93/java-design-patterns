@@ -3,4 +3,4 @@ import {Alert, Row, Col, Button, FormGroup, FormControl, ControlLabel} from "rea
 // import {TextField} from "material-ui";
 import axios from "axios";
 
-const validationURL = `http://localhost:8080/validation/initiate`;
+const validationURL = `http://172.29.132.0:8080/validation/initiate`;

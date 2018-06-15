@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Row, Col, Button, FormGroup, FormControl, ControlLabel} from "react-bootstrap";
 import axios from "axios";
 
-const sellerRegistrationURL = `http://localhost:8080/seller`;
+const sellerRegistrationURL = `http://172.29.132.0:8080/seller`;
 
 export default class Seller extends Component {
     constructor(props){

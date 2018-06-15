@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Row, Col, Button, FormGroup, FormControl, ControlLabel} from "react-bootstrap";
 import axios from "axios";
 
-const medicineRegistrationURL = `http://localhost:8080/prescription`;
+const medicineRegistrationURL = `http://172.29.132.0:8080/prescription`;
 
 export default class Medicine extends Component {
     constructor(props){

@@ -6,8 +6,8 @@ import 'react-dropdown/style.css'
 import axios from "axios";
 // import { Checkbox } from "material-ui";
 
-const prescriptionRegistrationURL = `http://localhost:8080/validation`;
-const medicineFetchUrl = `http://localhost:8080/medicine`
+const prescriptionRegistrationURL = `http://172.29.132.0:8080/validation`;
+const medicineFetchUrl = "http://172.29.132.0:8080/medicine"
 class Item extends React.Component {
     constructor(props){
         super(props)

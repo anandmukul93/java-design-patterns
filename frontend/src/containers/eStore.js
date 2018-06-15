@@ -3,8 +3,8 @@ import {Alert, Row, Col, Button, FormGroup, FormControl, ControlLabel} from "rea
 // import {TextField} from "material-ui";
 import axios from "axios";
 
-const validationURL = `http://localhost:8080/validation/initiate`;
-const otpURL = `http://localhost:8080/validation/validate`;
+const validationURL = `http://172.29.132.0:8080/validation/initiate`;
+const otpURL = `http://172.29.132.0:8080/validation/validate`;
 
 export default class eStore extends Component {
     constructor(props) {
@@ -15,7 +15,7 @@ export default class eStore extends Component {
             },
             otp: {
                 prescription_id: '',
-                prescription_OTP: '',
+                prescription_otp: '',
                 validation_time_stamp: ''
             },
             showForm: false,
@@ -39,6 +39,7 @@ export default class eStore extends Component {
         event.preventDefault();
         const newOTP = this.state.otp;
         newOTP.prescription_id = this.state.eStore.prescription_id;
+        newOTP.prescription_otp = this.state.otp.prescription_otp;
         newOTP.validation_time_stamp = "2018-06-14 23:00:01";
         let config = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-origin': '*' } };
         axios.post(otpURL, newOTP, config)
@@ -119,13 +120,13 @@ export default class eStore extends Component {
                                     type="prescription_id"
                                 />
                             </FormGroup>
-                            <FormGroup controlId="prescription_OTP" bsSize="large">
+                            <FormGroup controlId="prescription_otp" bsSize="large">
                                 <ControlLabel>OTP</ControlLabel>
                                 <FormControl
-                                    value={this.state.otp.prescription_OTP}
+                                    value={this.state.otp.prescription_otp}
                                     onChange={this.handleChangeOTP}
                                     autoComplete="off"
-                                    type="prescription_OTP"
+                                    type="prescription_otp"
                                 />
                             </FormGroup>
                             <FormGroup style={{display: 'none'}} controlId="validation_time_stamp" bsSize="large">
