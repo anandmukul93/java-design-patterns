@@ -27,7 +27,7 @@ export default class Doctor extends Component {
       event.preventDefault();
       const newDoctor = this.state.doctor;         
       var config = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-origin': '*' } };
-      axios.post(doctorRegistration, newDoctor, config)
+      axios.post(doctorRegistration, newDoctor)
       .then(res => {
         if(res.status === 200){
           alert("Doctor Successfully registered!!")

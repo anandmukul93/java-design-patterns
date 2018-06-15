@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Row, Col, Button, FormGroup, FormControl, ControlLabel} from "react-bootstrap";
+import {Row, Col, Form, Button, FormGroup, FormControl, ControlLabel} from "react-bootstrap";
 import  Dropdown  from 'react-dropdown';
 import 'react-dropdown/style.css'
 
@@ -45,12 +45,15 @@ class Item extends React.Component {
         this.props.informParent(this.props.index,this.state)
     }
 
+
     render() {
         let optionItems = this.props.options.map((e,i) => {return {value : {id: e.id, index: i}, label: e.name}});
         let style = {padding: '5px', margin: '15px'}
+        let dropdown = {width:'50px'}
+        let bg = {backgroundColor:'#337ab7', padding:'20px', width:'700px',marginBottom:'20px'}
         return (
-        <div>
-            <Dropdown onChange =  {this.handleSelect} value = {optionItems[this.state.medicineSelected]} placeholder="select a medicine" options={optionItems} style = {style}/>
+        <div class = "row" style = {bg}>
+            <Dropdown onChange =  {this.handleSelect} value = {optionItems[this.state.medicineSelected]} placeholder="Select a medicine" options={optionItems} className = 'dropdown'/>
             <input onChange ={this.handleChangeQuantity} placeholder="Enter quantity" style = {style}/>
             <input onChange = {this.handleChangeDays} placeholder = "Enter no of days" style = {style}/>
             <input onChange = {this.handleTimeChange} placeholder = "Set time" style = {style}/>
@@ -66,7 +69,8 @@ export default class Prescription extends Component {
             prescription: {
                 doc_id_no: '',
                 patient_phone_no: '',
-                patient_email: ''
+                patient_email: '',
+                max_purchase: '',
             },
             prescriptionItems : [],
             submitted: false,
@@ -130,7 +134,7 @@ export default class Prescription extends Component {
         }))
         axios.post(prescriptionRegistrationURL, request)
         .then(res =>{
-            alert("Prescription: generated" + res.data.prescription_id)
+            alert("Prescription: generated with prescription id : " + res.data.prescription_id)
         })
         .catch(err => {
             alert("Error occurred")
@@ -140,35 +144,37 @@ export default class Prescription extends Component {
     render() {
         let showPrescriptionView = !this.state.submitted;
         let prescriptionListData = this.state.prescriptionItems;
-        let style = {padding: '5px', margin: '15px', border: '2px solid black', backgroundColor: '#337ab7', color:'white'}
-        let style2 = {padding: '5px', margin: '10px', border: '2px solid black', backgroundColor: 'red', color:'white'}
+        let style = {padding: '5px', marginLeft: '10px', marginBottom: '10px', border: '2px solid black', backgroundColor: '#337ab7', color:'white'}
+        let style2 = {padding: '5px', marginBottom: '10px', border: '2px solid black', backgroundColor: 'red', color:'white'}
+        let style3 = {margin:'15px'}
+        let button_style = {width:'200px', fontSize:'15px'}
         return (
             <div>
                 <h2>
                     Prescription Registration
                 </h2>
                 <Row className="show-grid">
-                    <Col xs={6} xsOffset={3}>
+                    <Col xs={12} xsOffset={1}>
                         <div>
-                        <form onSubmit={this.handleSubmit}>
+                        <Form inline onSubmit={this.handleSubmit}>
                             <FormGroup controlId="doc_id_no" bsSize="medium">
                                 <ControlLabel>Doctor Identification Number</ControlLabel>
                                 <FormControl
                                     value={this.state.prescription.doc_id_no}
                                     onChange={this.handleChange}
                                     autoComplete="off"
-                                    type="text"
+                                    type="text" style = {style3}
                                 />
-                            </FormGroup>
+                            </FormGroup>{' '}
                             <FormGroup controlId="patient_phone_no" bsSize="medium">
                                 <ControlLabel>Patient Phone</ControlLabel>
                                 <FormControl
                                     value={this.state.prescription.patient_phone_no}
                                     autoComplete="off"
                                     onChange={this.handleChange}
-                                    type="phone"
+                                    type="phone" style = {style3}
                                 />
-                            </FormGroup>
+                            </FormGroup>{' '}
                             <FormGroup controlId="patient_email" bsSize="medium">
                                 <ControlLabel>Patient Email</ControlLabel>
                                 <FormControl
@@ -176,23 +182,35 @@ export default class Prescription extends Component {
                                     type="email"
                                     autoComplete="off"
                                     value={this.state.prescription.patient_email}
-                                    onChange={this.handleChange}
+                                    onChange={this.handleChange} style = {style3}
                                 />
-                            </FormGroup>
+                            </FormGroup>{' '}
+                            <FormGroup controlId="max_purchase" bsSize="medium">
+                                <ControlLabel>Maximum Purchase</ControlLabel>
+                                <FormControl
+                                    autoFocus
+                                    type="text"
+                                    autoComplete="off"
+                                    value={this.state.prescription.max_purchase}
+                                    onChange={this.handleChange}
+                                    style = {style3}
+                                />
+                            </FormGroup>{' '}
                             <FormGroup controlId>
 
-                            </FormGroup>
                             {!this.state.submitted &&
                             <Button bsStyle="primary"
                                     block
-                                    bsSize="large"
+                                    bsSize="small"
                                     disabled={!this.validateForm()}
-                                    type="submit"
+                                    type="submit" 
+                                    style = {button_style}
                             >
                                 Add medicines details
                             </Button>
                             }
-                        </form>
+                            </FormGroup>{' '}
+                        </Form>
                         </div>
                     
                     {this.state.submitted &&  
@@ -201,7 +219,7 @@ export default class Prescription extends Component {
 				    <Button style = {style2} onClick={() => this.addMore()}>Add medicine</Button>
 				    {prescriptionListData.map((item, i) => this.getPrescriptionListItemView(i))}       
 			
-                    <button style = {style} onClick={() => this.submitPrescriptionItems()}>Submit Prescription items</button>                      
+                    <Button style = {style} onClick={() => this.submitPrescriptionItems()}>Submit Prescription items</Button>                      
                     </div>)
                     }
                     </Col>
