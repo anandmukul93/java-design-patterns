@@ -38,9 +38,9 @@ class App extends Component {
                                     <Route exact path='/eStore' component={eStore} />
                                 </Switch>
                             </Row>
-                            <footer className="container-fluid bg-4 text-center" style={{'borderRadius': '4px'}}>
+                            {/* <footer className="container-fluid bg-4 text-center" style={{'borderRadius': '4px'}}>
                                 <p>Medical Prescription Validating Application</p> 
-                            </footer>
+                            </footer> */}
                         </Col>
                     </Row>
                 </div>

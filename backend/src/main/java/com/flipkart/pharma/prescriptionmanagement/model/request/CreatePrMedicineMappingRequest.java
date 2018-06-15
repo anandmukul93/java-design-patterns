@@ -26,6 +26,4 @@ public class CreatePrMedicineMappingRequest {
     private Integer noOfDays;
 
     private Time time;
-
-    private Boolean toNotify;
 }

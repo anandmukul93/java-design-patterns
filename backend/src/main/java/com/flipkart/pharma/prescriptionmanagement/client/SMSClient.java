@@ -9,17 +9,19 @@ public class SMSClient {
     public static final String ACCOUNT_SID = "AC00141fd1d338ca2413c06da04f117646";
     public static final String AUTH_TOKEN = "d7084025703756d15124cc8f58255293";
     public static final String FROM_PHONE_NO = "+17865902319";
-    public static final String AUTH_KEY = "d2f4cede677c688eacf8f5b9cb2ca116";
+    public static final String AUTH_KEY = "d6c949dd278992abbbf0eeef89798bb1";
 
-    public static String sendSMS(String smsContent, String toNumber) throws Exception {
-        String url = "http://sms.bulksmsserviceproviders.com/api/send_http.php?authkey=d6c949dd278992abbbf0eeef89798bb1&mobiles="+toNumber+"&message="+smsContent+"&sender=MBBVPS&route=B";
+    public static String sendSMS(String smsContent, String toNumber) {
+        String url = "http://sms.bulksmsserviceproviders.com/api/send_http.php?authkey="+AUTH_KEY+"&mobiles="+toNumber+"&message="+smsContent+"&sender=MBBVPS&route=B";
         sendGet(url);
         return "sms sent";
     }
 
-    private static void sendGet(String url) throws Exception {
+    private static void sendGet(String url) {
 
-        URL obj = new URL(url);
+        URL obj = null;
+        try {
+            obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
         // optional default is GET
@@ -44,7 +46,9 @@ public class SMSClient {
 
         //print result
         System.out.println(response.toString());
-
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }

@@ -12,6 +12,6 @@ import java.util.List;
  * Created by sourabh.d on 14/06/18.
  */
 public interface MedicineRepository extends CrudRepository<Medicine, Long> {
-    @Query(value = "select m from Medicine m where m.name like %:name%")
+    @Query(value = "select m from Medicine m")
     List<Medicine> searchByName(@Param("name") String name);
 }

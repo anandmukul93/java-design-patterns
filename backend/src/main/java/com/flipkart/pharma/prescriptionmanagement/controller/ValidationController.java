@@ -33,7 +33,7 @@ public class ValidationController {
     }
 
     @RequestMapping(value = "/initiate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
-    public InitiateValidationResponse initiate(@RequestBody @Valid InitiateValidationRequest initiateValidationRequest)throws Exception {
+    public InitiateValidationResponse initiate(@RequestBody @Valid InitiateValidationRequest initiateValidationRequest)throws PmaException {
         return validationService.initiateValidation(initiateValidationRequest);
     }
 

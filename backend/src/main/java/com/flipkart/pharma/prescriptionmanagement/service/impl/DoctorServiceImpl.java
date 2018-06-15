@@ -40,6 +40,4 @@ public class DoctorServiceImpl implements DoctorService {
             throw new DoctorException("Error while adding new doctor");
         }
     }
-
-
 }

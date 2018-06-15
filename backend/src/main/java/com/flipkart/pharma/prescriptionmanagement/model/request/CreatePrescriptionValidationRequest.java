@@ -17,6 +17,7 @@ public class CreatePrescriptionValidationRequest {
     private String patientPhoneNo;
     private String patientEmail;
     private Boolean toNotify;
+    private Integer maxPurchase;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date expiry;
     private List<CreatePrMedicineMappingRequest> medicines;
